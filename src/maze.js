@@ -2,12 +2,15 @@
 import Grid from './grid';
 import Random from './random';
 import MathHelper from './mathHelper';
+import AnimationHandler from './animationHandler';
+import TraceAnimation from './traceAnimation';
 
 const TileSize = 30;
 
 export default class Maze {
 	constructor(w, h, screenX, screenY){
 		this.grid = new Grid(w / TileSize, h / TileSize);
+		this.animations = new AnimationHandler();
 
 		this.currentCell = this.getCell(screenX, screenY);
 		this.visitedCells = [];
@@ -23,6 +26,8 @@ export default class Maze {
 			this.done = this.calculate();
 			this.lastUpdateTime -= 5;
 		}
+
+		this.animations.update(time);
 	}
 
 	draw(time, ctx){
@@ -32,11 +37,13 @@ export default class Maze {
 		};
 		ctx.stroke();
 
+		this.animations.draw(time, ctx);
+/*
 		for (var i = 0; i < this.cellStack.length; i++) {
 			ctx.beginPath();
 			ctx.arc(this.cellStack[i].x * TileSize + TileSize / 2, this.cellStack[i].y * TileSize + TileSize / 2, TileSize / 2, 0, 2*Math.PI);
 			ctx.stroke();
-		};		
+		};		*/
 	}
 
 	drawWalls(cell, ctx){
@@ -72,6 +79,7 @@ export default class Maze {
 				let choice = Random.choice(neighbours);
 				this.breakWalls(this.currentCell, choice);
 				this.cellStack.push(choice);
+				this.animations.addAnimation(new TraceAnimation(choice.x * TileSize, choice.y * TileSize, TileSize));
 				this.currentCell = choice;
 				this.visitedCells.push(this.currentCell);
 			} else{

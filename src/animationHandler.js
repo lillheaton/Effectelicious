@@ -12,9 +12,10 @@ export default class AnimationHandler {
 		for (var i = this.animations.length - 1; i >= 0; i--) {
 			if(!this.animations[i].alive){
 				this.animations.splice(i, 1);
+				return;
 			}
 
-			this.animations.update(time);
+			this.animations[i].update(time);
 		};
 	}
 
