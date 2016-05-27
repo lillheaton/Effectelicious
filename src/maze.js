@@ -5,7 +5,7 @@ import MathHelper from './mathHelper';
 import AnimationHandler from './animationHandler';
 import TraceAnimation from './traceAnimation';
 
-const TileSize = 30;
+const TileSize = 20;
 
 export default class Maze {
 	constructor(w, h, screenX, screenY){
@@ -18,13 +18,15 @@ export default class Maze {
 		this.tree = [];
 		this.lastUpdateTime = 0.0;
 		this.done = false;
+		this.$throttle = $('.throttle');
 	}
 
 	update(time){
 		this.lastUpdateTime += time.elapsedMs;
-		if(this.lastUpdateTime > 5 & !this.done){
+		let throttleVal = this.$throttle.val();
+		if(this.lastUpdateTime > throttleVal & !this.done){
 			this.done = this.calculate();
-			this.lastUpdateTime -= 5;
+			this.lastUpdateTime -= throttleVal;
 		}
 
 		this.animations.update(time);
@@ -49,6 +51,8 @@ export default class Maze {
 	drawWalls(cell, ctx){
 		let x = cell.x * TileSize,
 			y = cell.y * TileSize;
+
+		ctx.strokeStyle = "#013760";
 
 		if(cell.walls.includes('N')){
 			ctx.moveTo(x, y); // top left
@@ -79,11 +83,12 @@ export default class Maze {
 				let choice = Random.choice(neighbours);
 				this.breakWalls(this.currentCell, choice);
 				this.cellStack.push(choice);
-				this.animations.addAnimation(new TraceAnimation(choice.x * TileSize, choice.y * TileSize, TileSize));
+				this.animations.addAnimation(new TraceAnimation(choice.x * TileSize, choice.y * TileSize, TileSize, "#00F7F9"));
 				this.currentCell = choice;
 				this.visitedCells.push(this.currentCell);
 			} else{
 				this.currentCell = this.cellStack.pop();
+				this.animations.addAnimation(new TraceAnimation(this.currentCell.x * TileSize, this.currentCell.y * TileSize, TileSize, "#E74C3C"));
 			}
 
 			return false;

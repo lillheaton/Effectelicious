@@ -1,13 +1,16 @@
 
+import Utils from './utils';
+
 const LifeSpan = 2000;
 
 export default class TraceAnimation {
-	constructor(x, y, size){
+	constructor(x, y, size, hexColor){
 		this.x = x;
 		this.y = y;
 		this.size = size;
 		this.lifeTime = LifeSpan;
 		this.alive = true;
+		this.color = Utils.hexToRgb(hexColor);
 	}
 
 	update(time){
@@ -18,7 +21,7 @@ export default class TraceAnimation {
 	}
 
 	draw(time, ctx){
-		ctx.fillStyle = "rgba(255, 0, 0, " + this.lifeTime / LifeSpan + ")";
+		ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.lifeTime / LifeSpan})`;
 
 		ctx.beginPath();
 		ctx.arc(this.x + this.size / 2, this.y + this.size / 2, this.size / 2, 0, 2*Math.PI);

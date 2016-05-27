@@ -8,7 +8,7 @@ class App {
 		this.initCanvas();
 		this.time = new Time();
 
-		this.maze = new Maze(500, 500, 0, 0);
+		this.maze = new Maze(this.canvas.clientWidth, this.canvas.clientHeight, 0, 0);
 
 		this.start();
 	}
@@ -22,14 +22,14 @@ class App {
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.canvas.addEventListener("click", this.onClick.bind(this), false);
-		window.addEventListener('rezise', this.reziseCanvas.bind(this), false);
-		this.reziseCanvas();
+		//window.addEventListener('rezise', this.reziseCanvas.bind(this), false);
+		//this.reziseCanvas();
 	}
 
-	reziseCanvas(){
+	/*reziseCanvas(){
 		this.canvas.width = window.innerWidth;
 		this.canvas.height = window.innerHeight;
-	}
+	}*/
 
 	onClick(e){
 		let x = e.x, 
@@ -38,7 +38,7 @@ class App {
 		x -= this.canvas.offsetLeft;
 		y -= this.canvas.offsetTop;
 
-		this.maze = new Maze(500, 500, x, y);
+		this.maze = new Maze(this.canvas.clientWidth, this.canvas.clientHeight, x, y);
 	}
 
 	loop(){

@@ -2,10 +2,242 @@
 <html>
 	<head>
 		<title>Effectelicious</title>
+
+		<style type="text/css">
+
+			@font-face {
+				font-family: Quicksand-Light;
+				src: url(fonts/Quicksand-Light.otf);
+			}
+
+			body {
+				background-color: #014a6f;
+				color: #ECF0F1;
+				font-family: Quicksand-Light;
+			}
+
+			.wrapper {
+				padding: 0;
+				margin: auto;
+				display: block;
+				width: 800px;
+				height: 400px;	
+				margin-top: 50px;
+			}
+
+			.wrapper canvas {
+				border: 1px solid #013760;
+			}
+
+			.animation-wrap {
+				box-sizing:border-box;
+				max-width: 10rem;
+				margin-bottom: 10px;
+			}
+
+			@-webkit-keyframes entrance {
+				from, 20%, 40%, 60%, 80%, to {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    				animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);	
+				},
+
+				0% {
+					opacity: 0;
+					-webkit-transform: scale3d(.3, .3, .3);
+					transform: scale3d(.3, .3, .3);
+				}
+
+				20% {
+					-webkit-transform: scale3d(1.1, 1.1, 1.1);
+					transform: scale3d(1.1, 1.1, 1.1);
+				}
+
+				40% {
+					-webkit-transform: scale3d(.9, .9, .9);
+					transform: scale3d(.9, .9, .9);
+				}
+
+				60% {
+					opacity: 1;
+					-webkit-transform: scale3d(1.03, 1.03, 1.03);
+					transform: scale3d(1.03, 1.03, 1.03);
+				}
+
+				80% {
+					-webkit-transform: scale3d(.97, .97, .97);
+					transform: scale3d(.97, .97, .97);
+				}
+
+				to {
+					opacity: 1;
+					-webkit-transform: scale3d(1, 1, 1);
+					transform: scale3d(1, 1, 1);
+				}
+			}
+
+			@keyframes entrance {
+				from, 20%, 40%, 60%, 80%, to {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    				animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+
+				0% {
+					opacity: 0;
+					-webkit-transform: scale3d(.3, .3, .3);
+					transform: scale3d(.3, .3, .3);
+				}
+
+				20% {
+					-webkit-transform: scale3d(1.1, 1.1, 1.1);
+					transform: scale3d(1.1, 1.1, 1.1);
+				}
+
+				40% {
+					-webkit-transform: scale3d(.9, .9, .9);
+					transform: scale3d(.9, .9, .9);
+				}
+
+				60% {
+					opacity: 1;
+					-webkit-transform: scale3d(1.03, 1.03, 1.03);
+					transform: scale3d(1.03, 1.03, 1.03);
+				}
+
+				80% {
+					-webkit-transform: scale3d(.97, .97, .97);
+					transform: scale3d(.97, .97, .97);
+				}
+
+				to {
+					opacity: 1;
+					-webkit-transform: scale3d(1, 1, 1);
+					transform: scale3d(1, 1, 1);
+				}
+			}
+
+			.animation {
+				display: block;
+				-webkit-animation-fill-mode: both;
+  				animation-fill-mode: both;
+				-webkit-animation-name: entrance;
+				animation-name: entrance;
+				-webkit-animation-duration: .75s;
+  				animation-duration: .75s;
+			}
+
+			.animation h3 {
+				margin: 0px;
+				box-sizing:border-box;
+				position: relative;
+				font-size: 3rem;
+			}
+
+			input[type=range] {
+			    /*removes default webkit styles*/
+			    -webkit-appearance: none;
+			    
+			    /*fix for FF unable to apply focus style bug */
+			    border: 1px solid white;
+			    
+			    /*required for proper track sizing in FF*/
+			    width: 300px;
+			}
+			input[type=range]::-webkit-slider-runnable-track {
+			    width: 300px;
+			    height: 5px;
+			    background: #ECF0F1;
+			    border: none;
+			    border-radius: 3px;
+			}
+			input[type=range]::-webkit-slider-thumb {
+			    -webkit-appearance: none;
+			    border: none;
+			    height: 16px;
+			    width: 16px;
+			    border-radius: 50%;
+			    background: #013760;
+			    margin-top: -4px;
+			}
+			input[type=range]:focus {
+			    outline: none;
+			}
+			input[type=range]:focus::-webkit-slider-runnable-track {
+			    background: #ECF0F1;
+			}
+
+			input[type=range]::-moz-range-track {
+			    width: 300px;
+			    height: 5px;
+			    background: #ECF0F1;
+			    border: none;
+			    border-radius: 3px;
+			}
+			input[type=range]::-moz-range-thumb {
+			    border: none;
+			    height: 16px;
+			    width: 16px;
+			    border-radius: 50%;
+			    background: #013760;
+			}
+
+			/*hide the outline behind the border*/
+			input[type=range]:-moz-focusring{
+			    outline: 1px solid white;
+			    outline-offset: -1px;
+			}
+
+			input[type=range]::-ms-track {
+			    width: 300px;
+			    height: 5px;
+			    
+			    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+			    background: transparent;
+			    
+			    /*leave room for the larger thumb to overflow with a transparent border */
+			    border-color: transparent;
+			    border-width: 6px 0;
+
+			    /*remove default tick marks*/
+			    color: transparent;
+			}
+			input[type=range]::-ms-fill-lower {
+			    background: #777;
+			    border-radius: 10px;
+			}
+			input[type=range]::-ms-fill-upper {
+			    background: #ECF0F1;
+			    border-radius: 10px;
+			}
+			input[type=range]::-ms-thumb {
+			    border: none;
+			    height: 16px;
+			    width: 16px;
+			    border-radius: 50%;
+			    background: #013760;
+			}
+			input[type=range]:focus::-ms-fill-lower {
+			    background: #888;
+			}
+			input[type=range]:focus::-ms-fill-upper {
+			    background: #ECF0F1;
+			}
+			
+		</style>
+
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<canvas id="canvas"></canvas>
-
+		<div class="wrapper">
+			<div class="animation-wrap">
+				<span class="animation"><h3>Effectelicious</h3></span>	
+			</div>
+			
+			<canvas id="canvas" width="800px" height="600px"></canvas>	
+			<div>
+				<input class="throttle" type="range" min="1" max="200" value="1">
+			</div>
+		</div>
+		
 		<script type="text/javascript" src="app.js"></script>
 	</body>
 </html>
