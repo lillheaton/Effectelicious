@@ -1,35 +1,33 @@
 
 import 'babel-polyfill';
-import Time from './time';
+import Time from './utils/time';
 import Maze from './maze';
 
 class App {
 	constructor(){
-		this.initCanvas();
-		this.time = new Time();
+		this.lastUpdateTime = 0.0;
+		this.$throttle = $('.throttle');
 
-		this.maze = new Maze(this.canvas.clientWidth, this.canvas.clientHeight, 0, 0);
-
+		this.setupCanvas();
 		this.start();
 	}
 
+	/**
+	 * Starts update & draw loop
+	 */
 	start(){
+		this.currentEffectType = Maze;
+		this.currentEffect = new this.currentEffectType(this.canvas.clientWidth, this.canvas.clientHeight, 0, 0);
+		this.time = new Time();
 		this.time.start();
 		this.loop();
 	}
 
-	initCanvas(){
+	setupCanvas(){
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.canvas.addEventListener("click", this.onClick.bind(this), false);
-		//window.addEventListener('rezise', this.reziseCanvas.bind(this), false);
-		//this.reziseCanvas();
 	}
-
-	/*reziseCanvas(){
-		this.canvas.width = window.innerWidth;
-		this.canvas.height = window.innerHeight;
-	}*/
 
 	onClick(e){
 		let x = e.x, 
@@ -38,7 +36,7 @@ class App {
 		x -= this.canvas.offsetLeft;
 		y -= this.canvas.offsetTop;
 
-		this.maze = new Maze(this.canvas.clientWidth, this.canvas.clientHeight, x, y);
+		this.currentEffect = new this.currentEffectType(this.canvas.clientWidth, this.canvas.clientHeight, x, y);
 	}
 
 	loop(){
@@ -46,8 +44,14 @@ class App {
 		this.time.update();
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		this.maze.update(this.time);
-		this.maze.draw(this.time, this.ctx);
+		this.lastUpdateTime += this.time.elapsedMs;
+		let throttleVal = this.$throttle.val();
+		if(this.lastUpdateTime > throttleVal) {
+			this.currentEffect.update(this.time);
+			this.lastUpdateTime -= throttleVal;
+		}
+
+		this.currentEffect.draw(this.time, this.ctx);
 	}
 }
 

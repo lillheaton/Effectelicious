@@ -1,9 +1,9 @@
 
-import Utils from './utils';
+import Utils from '../utils/utils';
 
 const LifeSpan = 2000;
 
-export default class TraceAnimation {
+export default class FadeCircleAnimation {
 	constructor(x, y, size, hexColor){
 		this.x = x;
 		this.y = y;

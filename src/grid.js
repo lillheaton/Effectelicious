@@ -1,22 +1,14 @@
 
+import MathHelper from './utils/mathHelper';
+
 export default class Grid {
-	constructor(w, h){
+	constructor(w, h, cellGenerator){
 		this._grid = [];
 
 		for (var i = 0; i < w; i++) {
 			this._grid[i] = [];
 			for (var j = 0; j < h; j++) {
-				this._grid[i][j] = { 
-					x: i, 
-					y: j, 
-					walls: ['N', 'S', 'E', 'W'],
-					breakWall: function(w) {
-						let i = this.walls.indexOf(w);
-						if(i > -1) {
-							this.walls.splice(i, 1);
-						}
-					}
-				};
+				this._grid[i][j] = cellGenerator(i,j);
 			};
 		};
 	}
@@ -27,6 +19,23 @@ export default class Grid {
 
 	get nCells(){
 		return this._grid.length * this._grid[0].length;
+	}
+
+	getCell(x, y, cellSize) {
+		let gridPos = this.getGridPos(x, y, cellSize);
+
+		if(gridPos.x < this._grid.length && gridPos.y < this._grid[0].length){
+			return this._grid[gridPos.x][gridPos.y];
+		}
+
+		return null;
+	}
+
+	getGridPos(x, y, cellSize){
+		return {
+			x: MathHelper.snapToFloor(x, cellSize) / cellSize,
+			y: MathHelper.snapToFloor(y, cellSize) / cellSize
+		};
 	}
 
 	getNeighbours(cell, diagonal) {
