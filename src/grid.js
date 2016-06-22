@@ -21,8 +21,8 @@ export default class Grid {
 		return this._grid.length * this._grid[0].length;
 	}
 
-	getCell(x, y, cellSize) {
-		let gridPos = this.getGridPos(x, y, cellSize);
+	getCell(position, cellSize) {
+		let gridPos = this.getGridPos(position, cellSize);
 
 		if(gridPos.x < this._grid.length && gridPos.y < this._grid[0].length){
 			return this._grid[gridPos.x][gridPos.y];
@@ -31,10 +31,10 @@ export default class Grid {
 		return null;
 	}
 
-	getGridPos(x, y, cellSize){
+	getGridPos(position, cellSize){
 		return {
-			x: MathHelper.snapToFloor(x, cellSize) / cellSize,
-			y: MathHelper.snapToFloor(y, cellSize) / cellSize
+			x: MathHelper.snapToFloor(position.x, cellSize) / cellSize,
+			y: MathHelper.snapToFloor(position.y, cellSize) / cellSize
 		};
 	}
 

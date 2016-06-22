@@ -13,16 +13,37 @@
 			body {
 				background-color: #014a6f;
 				color: #ECF0F1;
-				font-family: Quicksand-Light;
+				font-family: Verdana;
+			}
+
+			button {
+				font-family: Verdana;
+				border: none;
+			    color: white;
+			    padding: 15px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+			}
+
+			button.default {
+				background-color: #91AA9D;
+				-webkit-transition-duration: 0.4s;
+    			transition-duration: 0.4s;
+			}
+
+			button.default:hover {
+				background-color: #3E606F;
 			}
 
 			.wrapper {
 				padding: 0;
 				margin: auto;
 				display: block;
-				width: 800px;
-				height: 400px;	
-				margin-top: 50px;
+				width: 1000px;
+				height: 500px;	
+				margin-top: 20px;
 			}
 
 			.wrapper canvas {
@@ -121,8 +142,8 @@
   				animation-fill-mode: both;
 				-webkit-animation-name: entrance;
 				animation-name: entrance;
-				-webkit-animation-duration: .75s;
-  				animation-duration: .75s;
+				-webkit-animation-duration: 1.15s;
+  				animation-duration: 1.15s;
 			}
 
 			.animation h3 {
@@ -232,7 +253,12 @@
 				<span class="animation"><h3>Effectelicious</h3></span>	
 			</div>
 			
-			<canvas id="canvas" width="800px" height="600px"></canvas>	
+			<div style="margin-bottom:10px;">
+				<button class="btn default" data-effect="maze">Maze</button>
+				<button class="btn default" data-effect="lightningBolt">Thunder</button>
+			</div>
+			
+			<canvas id="canvas" width="1000px" height="500px"></canvas>	
 			<div>
 				<input class="throttle" type="range" min="1" max="200" value="1">
 			</div>

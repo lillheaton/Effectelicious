@@ -38,7 +38,7 @@ module.exports = function(grunt){
 		 ***************************/
 		watch: {
 			options: {
-		    	livereload: '<%= connect.options.livereload %>'
+		    	//livereload: '<%= connect.options.livereload %>'
 			},
 			html: {
 				files: ['<%= settings.dev %>/index.html']

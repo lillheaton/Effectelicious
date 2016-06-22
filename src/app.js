@@ -2,13 +2,29 @@
 import 'babel-polyfill';
 import Time from './utils/time';
 import Maze from './maze';
+import Vector from 'victor';
+import LightningBolt from './lightningBolt';
 
 class App {
 	constructor(){
 		this.lastUpdateTime = 0.0;
 		this.$throttle = $('.throttle');
 
+		$('.btn').on('click', (e) => {
+			let type = $(e.currentTarget).data('effect');
+
+			if(type == "maze") {
+				this.currentEffectType = Maze;
+			} else if(type == "lightningBolt"){
+				this.currentEffectType = LightningBolt;
+			}
+
+			this.initializeEffect(this.defaultPosition.x, this.defaultPosition.y);
+		});
+
 		this.setupCanvas();
+		this.defaultPosition = {x: this.canvas.width / 2, y: this.canvas.height / 2};
+		this.currentEffectType = Maze; // The initial effect is the maze
 		this.start();
 	}
 
@@ -16,11 +32,19 @@ class App {
 	 * Starts update & draw loop
 	 */
 	start(){
-		this.currentEffectType = Maze;
-		this.currentEffect = new this.currentEffectType(this.canvas.clientWidth, this.canvas.clientHeight, 0, 0);
+		this.initializeEffect(this.defaultPosition.x, this.defaultPosition.y);
 		this.time = new Time();
 		this.time.start();
 		this.loop();
+	}
+
+	/**
+	 * Create a new instance of the current effect
+	 * @param  {int} x Mouse position X
+	 * @param  {int} y Mouse position Y
+	 */
+	initializeEffect(x, y){
+		this.currentEffect = new this.currentEffectType(new Vector(this.canvas.clientWidth, this.canvas.clientHeight), new Vector(x, y));
 	}
 
 	setupCanvas(){
@@ -36,7 +60,7 @@ class App {
 		x -= this.canvas.offsetLeft;
 		y -= this.canvas.offsetTop;
 
-		this.currentEffect = new this.currentEffectType(this.canvas.clientWidth, this.canvas.clientHeight, x, y);
+		this.initializeEffect(x, y);
 	}
 
 	loop(){

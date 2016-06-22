@@ -9,13 +9,13 @@ import FadeCircleAnimation from './animation/fadeCircleAnimation';
 const TileSize = 20;
 
 export default class Maze extends Effect {
-	constructor(w, h, screenX, screenY){
+	constructor(size, source){
 		super();
 
-		this.grid = new Grid(w / TileSize, h / TileSize, cell);
+		this.grid = new Grid(size.x / TileSize, size.y / TileSize, cell);
 		this.animations = new AnimationHandler();
 
-		this.currentCell = this.grid.getCell(screenX, screenY, TileSize);
+		this.currentCell = this.grid.getCell(source, TileSize);
 		this.visitedCells = [];
 		this.cellStack = [];
 		this.tree = [];
